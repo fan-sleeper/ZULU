@@ -12,7 +12,7 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
-    url="https://x93rjdxbu4.ap-southeast-2.awsapprunner.com",
+    url="https://mbkgairwrk.ap-southeast-2.awsapprunner.com",
 )
 
 urlpatterns = [
