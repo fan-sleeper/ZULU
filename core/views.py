@@ -1,4 +1,8 @@
 import os
+import threading
+
+from django.core.management import call_command
+from django.views.decorators.http import require_POST
 
 from collections import Counter
 from django.db.models import Count
@@ -17,7 +21,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from django.conf import settings
-from django.http import JsonResponse
 
 from core.models import Alert
 
@@ -500,3 +503,19 @@ def region_summary_view(request):
             {"error": "AI summary generation failed", "detail": str(e)},
             status=status.HTTP_502_BAD_GATEWAY,
         )
+
+
+@require_POST
+def trigger_sync(request):
+    provided = request.headers.get("X-Scheduler-Token")
+    expected = os.environ.get("SCHEDULER_TOKEN")
+
+    if not expected or provided != expected:
+        return JsonResponse({"error": "unauthorized"}, status=401)
+
+    def run_sync():
+        call_command("sync_promed", mode="incremental", max_pages=10)
+
+    threading.Thread(target=run_sync, daemon=True).start()
+
+    return JsonResponse({"status": "started"})

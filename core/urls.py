@@ -9,5 +9,6 @@ urlpatterns = [
     path("stats/regions/", stats_regions, name="stats_regions"),
     path("stats/diseases/", views.stats_diseases, name="stats_diseases"),
     path("summary/region/", views.region_summary_view, name="region_summary"),
+    path("api/internal/sync-promed/", views.trigger_sync, name="trigger_sync"),
     path("debug/db/", db_info),
 ]

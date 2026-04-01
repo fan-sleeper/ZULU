@@ -76,8 +76,15 @@ class Command(BaseCommand):
             Alert.objects.bulk_create(batch, batch_size=1000)
             created += len(batch)
 
+        summary = {
+            "created": created,
+            "skipped": skipped,
+        }
+
         self.stdout.write(
             self.style.SUCCESS(
                 f"Import complete. Created: {created}, skipped: {skipped}"
             )
         )
+
+        return summary
