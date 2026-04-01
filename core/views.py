@@ -3,6 +3,7 @@ import threading
 
 from django.core.management import call_command
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 
 from collections import Counter
 from django.db.models import Count
@@ -505,6 +506,7 @@ def region_summary_view(request):
         )
 
 
+@csrf_exempt
 @require_POST
 def trigger_sync(request):
     provided = request.headers.get("X-Scheduler-Token")
