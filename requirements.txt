@@ -5,6 +5,7 @@ types-python-dateutil
 python-dateutil
 google-genai
 django-cors-headers
+scrapy
 
 gunicorn>=21.2
 
